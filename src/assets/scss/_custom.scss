@@ -1,0 +1,16 @@
+// container
+
+.container {
+    @include xy-grid-container;
+    @include flex-align(center, null);
+    text-align: center;
+}
+
+header {
+
+}
+
+#game {
+    @include flex;
+    @include flex-align(center, middle);
+}
