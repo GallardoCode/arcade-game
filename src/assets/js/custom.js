@@ -20,7 +20,7 @@ class Enemy{
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x = this.x < 500 ? this.x + (this.speed * dt) : 0;
+    //this.x = this.x < 500 ? this.x + (this.speed * dt) : 0;
     };
 
     // Draw the enemy on the screen, required method for game
@@ -28,6 +28,38 @@ class Enemy{
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     };
 };
+
+/**
+ *
+ *
+ * @class Map
+ */
+class Map {
+    //Map will contain info about the rid layout to be made use of
+
+    /**
+     *Creates an instance of Map.
+     * @param {number} [rows=1] How many rows the map will have.
+     * @param {number} [cols=1] How many columns the map will have.
+     * @param {number} [initx=0] How many pixels the avatars will be shifted horizontally to match the first tile.
+     * @param {number} [inity=0] How many pixels the avatars will be shifted vertically to match the first tile.
+     * @param {number} [xSpace=0] How many pixels the avatars have to shift horizontally to change from tile to tile.
+     * @param {number} [ySpace=0] How many pixels the avatars have to shift vertically to change from tile to tile.
+     * @param {number} [enemyMinY=1] The start of rows an enemy can occupy, 1 being the first row.
+     * @param {number} [enemyMaxY=1] The end of rows an enemy can occupy, must be larger than enemyMinY.  
+     * @memberof Map
+     */
+    constructor(rows = 1, cols = 1, initx = 0, inity = 0, xSpace = 0, ySpace = 0, enemyMinY = 1, enemyMaxY = 1){
+        this.rows = rows;
+        this.cols = cols;
+        this.initx = initx;
+        this.inity = inity;
+        this.xSpace = xSpace;
+        this.ySpace = ySpace;
+        this.enemyMinY = enemyMinY;
+        this.enemyMaxY = enemyMaxY;
+    }
+}
 
 // Now write your own player class
 // This class requires an update(), render() and
