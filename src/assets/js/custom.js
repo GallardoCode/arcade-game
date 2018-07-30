@@ -15,7 +15,7 @@ class Map {
      * @param {number} [xSpace=0] How many pixels the avatars have to shift horizontally to change from tile to tile.
      * @param {number} [ySpace=0] How many pixels the avatars have to shift vertically to change from tile to tile.
      * @param {number} [enemyMinY=1] The start of rows an enemy can occupy, 1 being the first row.
-     * @param {number} [enemyMaxY=1] The end of rows an enemy can occupy, must be larger than enemyMinY.  
+     * @param {number} [enemyMaxY=1] The end of rows an enemy can occupy, must be equal or larger than enemyMinY.  
      * @memberof Map
      */
     constructor(cols = 1, rows = 1, initx = 0, inity = 0, xSpace = 0, ySpace = 0, enemyMinY = 1, enemyMaxY = 1){
