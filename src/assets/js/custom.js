@@ -27,19 +27,19 @@ class Map {
         this.ySpace = ySpace;
         this.enemyMinY = enemyMinY;
         this.enemyMaxY = enemyMaxY;
-    };
+    }
 
     getCanvasXSize() {
         return (this.cols * this.xSpace);
-    };
+    }
 
     getCanvasYSize() {
         return (this.rows * this.ySpace);
-    };
+    }
 
     getRandomEnemyRow() {
         return Math.floor(Math.random() * (this.enemyMaxY - this.enemyMinY)) + this.enemyMinY;
-    };
+    }
 
     getRandomCol() {
         return Math.floor(Math.random() * (this.cols - 1)) + 1
@@ -55,7 +55,7 @@ class Map {
         let randomNum = this.getRandomEnemyRow();
         console.log(randomNum);
         return (randomNum * this.ySpace) + this.inity;
-    };
+    }
 }
 
 // Enemies our player must avoid
@@ -66,13 +66,13 @@ class Enemy{
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.sprite = 'assets/img/enemy-bug.png';
+        this.sprite = "assets/img/enemy-bug.png";
 
-    // X Y coordinates of the the enemy sprite
-    this.x = x;
-    this.y = y;
-    this.speed = this.setSpeed();
-    };
+        // X Y coordinates of the the enemy sprite
+        this.x = x;
+        this.y = y;
+        this.speed = this.setSpeed();
+    }
 
     // Update the enemy's position, required method for game
     // Parameter: dt, a time delta between ticks
@@ -120,38 +120,54 @@ class Enemy{
 // This class requires an update(), render() and
 // a handleInput() method.
 class Player {
-    constructor() {
+    constructor(startX = 202, startY = 394) {
         this.sprite = "assets/img/char-boy.png";
-        this.x = 202;
-        this.y = 394;
+        this.x = startX;
+        this.y = startY;
+        this.startX = startX;
+        this.startY = startY;
         this.level = 1;
     }
 
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    };
+    }
 
     update() {
+        if(this.y < (map.ySpace + map.inity)) {
+            this.levelUp();
+            console.log("reached");
+            this.reset();
+        }
+    }
 
-    };
+    levelUp() {
+        this.level += 1;
+        console.log(this.level);
+    }
+
+    reset() {
+        this.x = this.startX;
+        this.y = this.startY;
+    }
 
     handleInput(keycode){
         switch (keycode) {
-            case 'left': if (this.x >= (map.xSpace + map.initx)) {
-                this.x -= map.xSpace;
-            }
+        case "left": if (this.x >= (map.xSpace + map.initx)) {
+            this.x -= map.xSpace;
+        }
             break;
-            case 'up': if (this.y >= (map.ySpace + map.inity)) {
-                this.y -= map.ySpace;
-            }
+        case "up": if (this.y >= (map.ySpace + map.inity)) {
+            this.y -= map.ySpace;
+        }
             break;
-            case 'right': if (this.x < (map.getCanvasXSize() - map.xSpace + map.initx)) {
-                this.x += map.xSpace;
-            }
+        case "right": if (this.x < (map.getCanvasXSize() - map.xSpace + map.initx)) {
+            this.x += map.xSpace;
+        }
             break;
-            case 'down': if (this.y < (map.getCanvasYSize() - map.ySpace + map.inity )) {
-                this.y +=map.ySpace;
-            }
+        case "down": if (this.y < (map.getCanvasYSize() - map.ySpace + map.inity )) {
+            this.y +=map.ySpace;
+        }
             break;
         }
     }
@@ -167,12 +183,12 @@ let player = new Player();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
+document.addEventListener("keyup", function(e) {
     var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down'
+        37: "left",
+        38: "up",
+        39: "right",
+        40: "down"
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
