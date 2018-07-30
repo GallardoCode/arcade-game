@@ -37,6 +37,16 @@ class Map {
         return Math.floor(Math.random() * (this.enemyMaxY - this.enemyMinY)) + this.enemyMinY;
     };
 
+    getRandomCol() {
+        return Math.floor(Math.random() * (this.cols - 1)) + 1
+    }
+
+    getRandomColPixel() {
+        let randomNum = this.getRandomCol();
+        console.log(randomNum);
+        return (randomNum * this.xSpace);
+    }
+
     getRandomEnemyRowPixel() {
         let randomNum = this.getRandomEnemyRow();
         console.log(randomNum);
@@ -112,7 +122,7 @@ class Enemy{
 // Place the player object in a variable called player
 let map = new Map(5, 6, 0, -21, 101, 83, 2, 4);
 console.log(map.getCanvasXSize());
-let allEnemies = [new Enemy(0, map.getRandomEnemyRowPixel()), new Enemy(0, map.getRandomEnemyRowPixel()), new Enemy(0, map.getRandomEnemyRowPixel())];
+let allEnemies = [new Enemy(map.getRandomColPixel(), map.getRandomEnemyRowPixel()), new Enemy(map.getRandomColPixel(), map.getRandomEnemyRowPixel()), new Enemy(map.getRandomColPixel(), map.getRandomEnemyRowPixel())];
 
 
 // This listens for key presses and sends the keys to your
