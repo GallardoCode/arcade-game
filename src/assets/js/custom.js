@@ -33,6 +33,10 @@ class Map {
         return (this.cols * this.xSpace);
     };
 
+    getCanvasYSize() {
+        return (this.rows * this.ySpace);
+    };
+
     getRandomEnemyRow() {
         return Math.floor(Math.random() * (this.enemyMaxY - this.enemyMinY)) + this.enemyMinY;
     };
@@ -115,7 +119,43 @@ class Enemy{
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+class Player {
+    constructor() {
+        this.sprite = "assets/img/char-boy.png";
+        this.x = 202;
+        this.y = 394;
+        this.level = 1;
+    }
 
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    };
+
+    update() {
+
+    };
+
+    handleInput(keycode){
+        switch (keycode) {
+            case 'left': if (this.x >= (map.xSpace + map.initx)) {
+                this.x -= map.xSpace;
+            }
+            break;
+            case 'up': if (this.y >= (map.ySpace + map.inity)) {
+                this.y -= map.ySpace;
+            }
+            break;
+            case 'right': if (this.x < (map.getCanvasXSize() - map.xSpace + map.initx)) {
+                this.x += map.xSpace;
+            }
+            break;
+            case 'down': if (this.y < (map.getCanvasYSize() - map.ySpace + map.inity )) {
+                this.y +=map.ySpace;
+            }
+            break;
+        }
+    }
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -123,7 +163,7 @@ class Enemy{
 let map = new Map(5, 6, 0, -21, 101, 83, 2, 4);
 console.log(map.getCanvasXSize());
 let allEnemies = [new Enemy(map.getRandomColPixel(), map.getRandomEnemyRowPixel()), new Enemy(map.getRandomColPixel(), map.getRandomEnemyRowPixel()), new Enemy(map.getRandomColPixel(), map.getRandomEnemyRowPixel())];
-
+let player = new Player();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -135,7 +175,7 @@ document.addEventListener('keyup', function(e) {
         40: 'down'
     };
 
-    // player.handleInput(allowedKeys[e.keyCode]);
+    player.handleInput(allowedKeys[e.keyCode]);
 });
 
-export {Enemy, allEnemies};
+export {Enemy, Player, allEnemies, player};
