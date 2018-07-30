@@ -48,7 +48,7 @@ class Map {
     getRandomColPixel() {
         let randomNum = this.getRandomCol();
         console.log(randomNum);
-        return (randomNum * this.xSpace);
+        return (randomNum * this.xSpace) + this.initx;
     }
 
     getRandomEnemyRowPixel() {
