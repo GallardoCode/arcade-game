@@ -4,7 +4,7 @@
  * @class Map
  */
 class Map {
-    //Map will contain info about the rid layout to be made use of
+    //Map will contain info about the grid layout to be made use of
 
     /**
      *Creates an instance of Map.
@@ -18,7 +18,7 @@ class Map {
      * @param {number} [enemyMaxY=1] The end of rows an enemy can occupy, must be larger than enemyMinY.  
      * @memberof Map
      */
-    constructor(rows = 1, cols = 1, initx = 0, inity = 0, xSpace = 0, ySpace = 0, enemyMinY = 1, enemyMaxY = 1){
+    constructor(cols = 1, rows = 1, initx = 0, inity = 0, xSpace = 0, ySpace = 0, enemyMinY = 1, enemyMaxY = 1){
         this.rows = rows;
         this.cols = cols;
         this.initx = initx;
@@ -27,7 +27,21 @@ class Map {
         this.ySpace = ySpace;
         this.enemyMinY = enemyMinY;
         this.enemyMaxY = enemyMaxY;
-    }
+    };
+
+    getCanvasXSize() {
+        return (this.cols * this.xSpace);
+    };
+
+    getRandomEnemyRow() {
+        return Math.floor(Math.random() * (this.enemyMaxY - this.enemyMinY)) + this.enemyMinY;
+    };
+
+    getRandomEnemyRowPixel() {
+        let randomNum = this.getRandomEnemyRow();
+        console.log(randomNum);
+        return (randomNum * this.ySpace) + this.inity;
+    };
 }
 
 // Enemies our player must avoid
@@ -43,21 +57,46 @@ class Enemy{
     // X Y coordinates of the the enemy sprite
     this.x = x;
     this.y = y;
-    this.speed = 20;
+    this.speed = this.setSpeed();
     };
 
     // Update the enemy's position, required method for game
     // Parameter: dt, a time delta between ticks
     update(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-    //this.x = this.x < 500 ? this.x + (this.speed * dt) : 0;
+        // You should multiply any movement by the dt parameter
+        // which will ensure the game runs at the same speed for
+        // all computers.
+        this.x += this.speed * dt;
+        //check if enemy's position is oputside the canvas
+        if (map.getCanvasXSize()) {
+            if (this.x > map.getCanvasXSize()){
+                this.reset();
+                console.log(this.x);
+                console.log(this.y);
+            }
+        } else if (this.x > 505) {
+            this.reset();
+        }
+    };
+
+    setSpeed(){
+        return 30;
     };
 
     // Draw the enemy on the screen, required method for game
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    };
+
+    reset(){
+        if(map instanceof Map){
+            this.x = map.xSpace * -2;
+            this.y = map.getRandomEnemyRowPixel();
+        }else {
+            this.x = -202;
+            this.y = -21;
+        }
+        this.speed = this.setSpeed();
     };
 };
 
@@ -71,7 +110,9 @@ class Enemy{
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var allEnemies = [new Enemy(0,-22), new Enemy(202,61), new Enemy(101,144)];
+let map = new Map(5, 6, 0, -21, 101, 83, 2, 4);
+console.log(map.getCanvasXSize());
+let allEnemies = [new Enemy(0, map.getRandomEnemyRowPixel()), new Enemy(0, map.getRandomEnemyRowPixel()), new Enemy(0, map.getRandomEnemyRowPixel())];
 
 
 // This listens for key presses and sends the keys to your
