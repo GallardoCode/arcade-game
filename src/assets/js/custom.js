@@ -71,6 +71,7 @@ class Enemy{
         // X Y coordinates of the the enemy sprite
         this.x = x;
         this.y = y;
+        this.xOffset = 3;
         this.speed = this.setSpeed();
     }
 
@@ -82,6 +83,9 @@ class Enemy{
         // all computers.
         this.x += this.speed * dt;
         //check if enemy's position is oputside the canvas
+        if (this.checkCollision()){
+            player.reset();
+        }
         if (map.getCanvasXSize()) {
             if (this.x > map.getCanvasXSize()){
                 this.reset();
@@ -101,6 +105,14 @@ class Enemy{
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     };
+
+    checkCollision() {
+        if ((this.x + map.xSpace - this.xOffset) > (player.x + player.xOffset) && (this.x + this.xOffset) < (player.x + map.xSpace - player.xOffset) && this.y == player.y){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     reset(){
         if(map instanceof Map){
@@ -126,6 +138,7 @@ class Player {
         this.y = startY;
         this.startX = startX;
         this.startY = startY;
+        this.xOffset = 17;
         this.level = 1;
     }
 
