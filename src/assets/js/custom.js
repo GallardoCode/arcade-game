@@ -1,3 +1,5 @@
+let levelSpan = document.getElementById('level_span');
+
 /**
  *
  *
@@ -140,6 +142,27 @@ class Player {
         this.startY = startY;
         this.xOffset = 17;
         this.level = 1;
+        this.init();
+    }
+
+    init(){
+        this.updateLevel();
+    }
+
+    get level(){
+        return this._level;
+    }
+
+    set level(newLevel){
+        if(!isNaN(parseInt(newLevel))) {
+            this._level = newLevel;
+        }
+    }
+
+    updateLevel(){
+        if(levelSpan){
+            levelSpan.textContent = this.level;
+        }
     }
 
     render() {
@@ -149,6 +172,7 @@ class Player {
     update() {
         if(this.y < (map.ySpace + map.inity)) {
             this.levelUp();
+            this.updateLevel();
             console.log("reached");
             this.reset();
         }
