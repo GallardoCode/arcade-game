@@ -73,7 +73,7 @@ class Enemy{
         // X Y coordinates of the the enemy sprite
         this.x = x;
         this.y = y;
-        this.xOffset = 3;
+        this.xOffset = 4;
         this.speed = this.setSpeed();
     }
 
@@ -140,7 +140,7 @@ class Player {
         this.y = startY;
         this.startX = startX;
         this.startY = startY;
-        this.xOffset = 17;
+        this.xOffset = 18;
         this.level = 1;
         this.init();
     }
