@@ -1,5 +1,5 @@
-let levelSpan = document.getElementById('level_span');
-
+let levelSpan = document.getElementById("level_span");
+let livesSpan = document.getElementById("lives_span");
 /**
  *
  *
@@ -87,6 +87,8 @@ class Enemy{
         //check if enemy's position is oputside the canvas
         if (this.checkCollision()){
             player.reset();
+            player.lives -= 1;
+            player.updateLives();
         }
         if (map.getCanvasXSize()) {
             if (this.x > map.getCanvasXSize()){
@@ -142,11 +144,28 @@ class Player {
         this.startY = startY;
         this.xOffset = 18;
         this.level = 1;
+        this.lives = 3;
         this.init();
     }
 
     init(){
         this.updateLevel();
+        this.updateLives();
+    }
+
+    get lives(){
+        return this._lives;
+    }
+    set lives(newLives){
+        if(!isNaN(parseInt(newLives))) {
+            this._lives = newLives;
+        }
+    }
+
+    updateLives(){
+        if(livesSpan){
+            livesSpan.textContent = this.lives;
+        }
     }
 
     get level(){

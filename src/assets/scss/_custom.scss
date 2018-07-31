@@ -10,8 +10,16 @@ header {
 
 }
 
+.info {
+    @include xy-grid;
+}
+
 #level {
-    
+    @include xy-cell(6);
+}
+
+#lives {
+    @include xy-cell(6);
 }
 
 #game {
