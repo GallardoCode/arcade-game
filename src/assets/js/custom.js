@@ -40,11 +40,11 @@ class Map {
     }
 
     getRandomEnemyRow() {
-        return Math.floor(Math.random() * (this.enemyMaxY - this.enemyMinY)) + this.enemyMinY;
+        return Math.floor(Math.random() * (this.enemyMaxY - (this.enemyMinY - 1))+(this.enemyMinY - 1));
     }
 
     getRandomCol() {
-        return Math.floor(Math.random() * (this.cols - 1)) + 1
+        return Math.floor(Math.random() * (this.cols - 1)) + 1;
     }
 
     getRandomColPixel() {
