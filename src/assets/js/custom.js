@@ -102,7 +102,19 @@ class Enemy{
     };
 
     setSpeed(){
-        return 30;
+        if(player){
+            if(player.level <= 5){
+                return (Math.random() * (100-40)) + 40;
+            }else if (player.level > 5 && player.level <= 10){
+                return (Math.random() * (120-60)) + 60;
+            }else if (player.level > 10 && player.level <= 15){
+                return (Math.random() * (140-80)) + 80;
+            } else {
+                return (Math.random() * (160-100)) + 100;
+            }
+        } else {
+            return (Math.random() * (100-40)) + 40;
+        }
     };
 
     // Draw the enemy on the screen, required method for game
@@ -120,13 +132,13 @@ class Enemy{
 
     reset(){
         if(map instanceof Map){
-            this.x = map.xSpace * -2;
+            this.x = -map.xSpace;
             this.y = map.getRandomEnemyRowPixel();
         }else {
             this.x = -202;
             this.y = -21;
-        }
-        this.speed = this.setSpeed();
+        } 
+        this.speed = this.setSpeed();  
     };
 };
 
