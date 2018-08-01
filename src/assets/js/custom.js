@@ -36,28 +36,64 @@ class Map {
         this.enemyMaxY = enemyMaxY;
     }
 
+    /**
+     *
+     *
+     * @returns {number} Horizontal map size
+     * @memberof Map
+     */
     getCanvasXSize() {
         return (this.cols * this.xSpace);
     }
 
+    /**
+     *
+     *
+     * @returns {number} Vertical map size
+     * @memberof Map
+     */
     getCanvasYSize() {
         return (this.rows * this.ySpace);
     }
 
+    /**
+     *
+     *
+     * @returns {number} Random enemy row between the min and max row
+     * @memberof Map
+     */
     getRandomEnemyRow() {
         return Math.floor(Math.random() * (this.enemyMaxY - (this.enemyMinY - 1))+(this.enemyMinY - 1));
     }
 
+    /**
+     *
+     *
+     * @returns {number} Random column number in the map
+     * @memberof Map
+     */
     getRandomCol() {
         return Math.floor(Math.random() * (this.cols - 1)) + 1;
     }
 
+    /**
+     *The horizonal pixel count of a random column
+     *
+     * @returns {number} Pixel number in the x
+     * @memberof Map
+     */
     getRandomColPixel() {
         let randomNum = this.getRandomCol();
         console.log(randomNum);
         return (randomNum * this.xSpace) + this.initx;
     }
 
+    /**
+     *The vertical pixel count of a random row
+     *
+     * @returns {number} Pixel number in the y
+     * @memberof Map
+     */
     getRandomEnemyRowPixel() {
         let randomNum = this.getRandomEnemyRow();
         console.log(randomNum);
@@ -67,6 +103,12 @@ class Map {
 
 // Enemies our player must avoid
 class Enemy{
+    /**
+     *Creates an instance of Enemy.
+     * @param {number} [x=0] Initial x coordinate
+     * @param {number} [y=0] Initial y coordinate
+     * @memberof Enemy
+     */
     constructor(x = 0, y = 0) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
@@ -106,6 +148,12 @@ class Enemy{
         }
     };
 
+    /**
+     *Speed of enemy according to player level
+     *
+     * @returns {number} Speed of enemy
+     * @memberof Enemy
+     */
     setSpeed(){
         if(player){
             if(player.level <= 5){
@@ -123,10 +171,22 @@ class Enemy{
     };
 
     // Draw the enemy on the screen, required method for game
+    /**
+     *Renders the enemy on canvas
+     *
+     * @memberof Enemy
+     */
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     };
 
+    /**
+     *Checks in enemy has colided with a player taking into account the offset
+     *of the player and enemy avatar for more accurate collisions
+     *
+     * @returns {boolean} True if hit, Flase if not
+     * @memberof Enemy
+     */
     checkCollision() {
         if ((this.x + map.xSpace - this.xOffset) > (player.x + player.xOffset) && (this.x + this.xOffset) < (player.x + map.xSpace - player.xOffset) && this.y == player.y){
             return true;
@@ -135,6 +195,11 @@ class Enemy{
         }
     }
 
+    /**
+     *Places enemy at starting position when it goes off map
+     *
+     * @memberof Enemy
+     */
     reset(){
         if(map instanceof Map){
             this.x = -map.xSpace;
@@ -153,6 +218,12 @@ class Enemy{
 // This class requires an update(), render() and
 // a handleInput() method.
 class Player {
+    /**
+     *Creates an instance of Player.
+     * @param {number} [startX=202] Starting x coordinate
+     * @param {number} [startY=394] Starting y coordinate
+     * @memberof Player
+     */
     constructor(startX = 202, startY = 394) {
         this.sprite = "assets/img/char-boy.png";
         this.x = startX;
@@ -165,50 +236,101 @@ class Player {
         this.init();
     }
 
+    /**
+     *Displays the player's lives and level on the DOM
+     *
+     * @memberof Player
+     */
     init(){
         this.updateLevel();
         this.updateLives();
     }
 
+    /**
+     *Returns player lives
+     *
+     * @memberof Player
+     */
     get lives(){
         return this._lives;
     }
+    /**
+     *Sets player lives in the argument can be parsed as an integer
+     *
+     * @memberof Player
+     */
     set lives(newLives){
         if(!isNaN(parseInt(newLives))) {
             this._lives = newLives;
         }
     }
 
+    /**
+     *Checks if player still has lives
+     *
+     * @returns {boolean} True if alive, Flase if dead
+     * @memberof Player
+     */
     isAlive() {
         return this.lives<1?false:true;
     }
 
+    /**
+     *Displays amount of lives on the DOM
+     *
+     * @memberof Player
+     */
     updateLives(){
         if(livesSpan){
             livesSpan.textContent = this.lives;
         }
     }
 
+    /**
+     *Gets player level
+     *
+     * @memberof Player
+     */
     get level(){
         return this._level;
     }
 
+    /**
+     *Sets player level if the arguments can be parsed as an integer
+     *
+     * @memberof Player
+     */
     set level(newLevel){
         if(!isNaN(parseInt(newLevel))) {
             this._level = newLevel;
         }
     }
 
+    /**
+     *Displays player level on the DOM
+     *
+     * @memberof Player
+     */
     updateLevel(){
         if(levelSpan){
             levelSpan.textContent = this.level;
         }
     }
 
+    /**
+     *Renders the player on the canvas
+     *
+     * @memberof Player
+     */
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
+    /**
+     *Updates player conditions
+     *
+     * @memberof Player
+     */
     update() {
         if(this.y < (map.ySpace + map.inity)) {
             this.levelUp();
@@ -219,16 +341,32 @@ class Player {
         }
     }
 
+    /**
+     *Increases player's level by one
+     *
+     * @memberof Player
+     */
     levelUp() {
         this.level += 1;
         console.log(this.level);
     }
 
+    /**
+     *Sets player to the starting position
+     *
+     * @memberof Player
+     */
     reset() {
         this.x = this.startX;
         this.y = this.startY;
     }
 
+    /**
+     *Handles specific inputs we are looking out for like play movement
+     *
+     * @param {*} keycode
+     * @memberof Player
+     */
     handleInput(keycode){
         switch (keycode) {
         case "left": if (this.x >= (map.xSpace + map.initx)) {
@@ -261,6 +399,11 @@ function initObjects() {
     gameoverpanel.style.display = "none";
 }
 
+/**
+ * Increases the amount of enemies in the array depending on the player level
+ *
+ * @returns if no need to increase enemies
+ */
 function increaseEnemies(){
     if(player.level <= 5) {
         return;
@@ -287,6 +430,10 @@ document.addEventListener("keyup", function(e) {
 });
 
 
+/**
+ *Displays the gameover panel with level status
+ *
+ */
 function gameover() {
     gameoverpanel.style.display = "flex";
     let finalLevel = document.querySelector(".final_level");

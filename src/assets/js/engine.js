@@ -101,6 +101,11 @@ var Engine = (function(global) {
         player.update();
     }
 
+    /**
+     *Check if the player can continue the game
+     *
+     * @returns {boolean} True if player can still play, false if not.
+     */
     function checkStatus() {
         if(!player.isAlive()){
             win.cancelAnimationFrame(requestAnimation);
