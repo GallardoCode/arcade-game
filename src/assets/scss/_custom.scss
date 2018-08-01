@@ -1,3 +1,6 @@
+//fonts
+$dohyeon: 'Do Hyeon', sans-serif;
+$hanalei: 'Hanalei Fill', cursive;
 // container
 
 .container {
@@ -7,23 +10,53 @@
 }
 
 header {
-
+    h1{
+        font-family: $hanalei;
+    }
 }
 
 .info {
     @include xy-grid;
 }
+.info {
+    font-family: $dohyeon;
+    font-size: rem-calc(20);
 
-#level {
-    @include xy-cell(6);
-}
+    #level {
+        @include xy-cell(6);
+    }
 
-#lives {
-    @include xy-cell(6);
+    #lives {
+        @include xy-cell(6);
+    }
 }
 
 #game {
     @include flex;
     @include flex-align(center, middle);
+}
+
+.gameover {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.gameoverpanel {
+    position: relative;
+    background-color: #e0e0e0;
+    text-align: center;
+    margin: auto;
+    padding: 0;
+    @include border-box;
+    width: 60%;
+    @include shadow;
+    @include border-radius;
+    
 }
 

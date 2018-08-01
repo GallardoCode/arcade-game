@@ -1,5 +1,6 @@
 let levelSpan = document.getElementById("level_span");
 let livesSpan = document.getElementById("lives_span");
+let gameoverpanel = document.querySelector(".gameover");
 /**
  *
  *
@@ -174,6 +175,10 @@ class Player {
         }
     }
 
+    isAlive() {
+        return this.lives<1?false:true;
+    }
+
     updateLives(){
         if(livesSpan){
             livesSpan.textContent = this.lives;
@@ -262,4 +267,9 @@ document.addEventListener("keyup", function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-export {Enemy, Player, allEnemies, player};
+function gameover() {
+    gameoverpanel.style.display = "flex";
+    let finalLevel = document.querySelector(".final_level");
+    finalLevel.textContent = player.level;
+}
+export {Enemy, Player, allEnemies, player, gameover};

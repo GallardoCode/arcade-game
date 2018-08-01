@@ -12,7 +12,7 @@
  * This engine makes the canvas' context (ctx) object globally available to make 
  * writing app.js a little simpler to work with.
  */
-import {Enemy, Player, allEnemies, player} from './custom.js';
+import {Enemy, Player, allEnemies, player, gameover} from './custom.js';
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -22,7 +22,8 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime;
+        lastTime,
+        requestAnimation;
 
     canvas.width = 505;
     canvas.height = 606;
@@ -45,6 +46,10 @@ var Engine = (function(global) {
          * our update function since it may be used for smooth animation.
          */
         update(dt);
+        if(!checkStatus()){
+            gameover();
+            return;
+        }
         render();
 
         /* Set our lastTime variable which is used to determine the time delta
@@ -55,7 +60,7 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        win.requestAnimationFrame(main);
+        requestAnimation = win.requestAnimationFrame(main);
     }
 
     /* This function does some initial setup that should only occur once,
@@ -96,6 +101,15 @@ var Engine = (function(global) {
         player.update();
     }
 
+    function checkStatus() {
+        if(!player.isAlive()){
+            win.cancelAnimationFrame(requestAnimation);
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
      * game tick (or loop of the game engine) because that's how games work -
