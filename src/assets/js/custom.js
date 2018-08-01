@@ -2,9 +2,9 @@ let levelSpan = document.getElementById("level_span");
 let livesSpan = document.getElementById("lives_span");
 let gameoverpanel = document.querySelector(".gameover");
 let replay = document.querySelector(".replay");
-let map
-let allEnemies
-let player
+let map;
+let allEnemies;
+let player;
 /**
  *
  *
@@ -121,30 +121,30 @@ class Enemy{
         this.x = x;
         this.y = y;
         this.xOffset = 4;
-        this.speed = this.setSpeed();
+        this.speed = this.setSpeed(player);
     }
 
     // Update the enemy's position, required method for game
     // Parameter: dt, a time delta between ticks
-    update(dt) {
+    update(dt, player, map) {
         // You should multiply any movement by the dt parameter
         // which will ensure the game runs at the same speed for
         // all computers.
         this.x += this.speed * dt;
         //check if enemy's position is oputside the canvas
-        if (this.checkCollision()){
+        if (this.checkCollision(map, player)){
             player.reset();
             player.lives -= 1;
             player.updateLives();
         }
         if (map.getCanvasXSize()) {
             if (this.x > map.getCanvasXSize()){
-                this.reset();
+                this.reset(map);
                 console.log(this.x);
                 console.log(this.y);
             }
         } else if (this.x > 505) {
-            this.reset();
+            this.reset(map);
         }
     };
 
@@ -154,7 +154,7 @@ class Enemy{
      * @returns {number} Speed of enemy
      * @memberof Enemy
      */
-    setSpeed(){
+    setSpeed(player){
         if(player){
             if(player.level <= 5){
                 return (Math.random() * (100-40)) + 40;
@@ -187,7 +187,7 @@ class Enemy{
      * @returns {boolean} True if hit, Flase if not
      * @memberof Enemy
      */
-    checkCollision() {
+    checkCollision(map, player) {
         if ((this.x + map.xSpace - this.xOffset) > (player.x + player.xOffset) && (this.x + this.xOffset) < (player.x + map.xSpace - player.xOffset) && this.y == player.y){
             return true;
         } else {
@@ -200,7 +200,7 @@ class Enemy{
      *
      * @memberof Enemy
      */
-    reset(){
+    reset(map){
         if(map instanceof Map){
             this.x = -map.xSpace;
             this.y = map.getRandomEnemyRowPixel();
@@ -208,7 +208,7 @@ class Enemy{
             this.x = -202;
             this.y = -21;
         } 
-        this.speed = this.setSpeed();  
+        this.speed = this.setSpeed(player);  
     };
 };
 
@@ -331,13 +331,13 @@ class Player {
      *
      * @memberof Player
      */
-    update() {
+    update(map) {
         if(this.y < (map.ySpace + map.inity)) {
             this.levelUp();
             this.updateLevel();
             console.log("reached");
-            this.reset();
-            increaseEnemies();
+            this.reset(map);
+            increaseEnemies(this, map);
         }
     }
 
@@ -367,7 +367,7 @@ class Player {
      * @param {*} keycode
      * @memberof Player
      */
-    handleInput(keycode){
+    handleInput(keycode, map){
         switch (keycode) {
         case "left": if (this.x >= (map.xSpace + map.initx)) {
             this.x -= map.xSpace;
@@ -404,7 +404,7 @@ function initObjects() {
  *
  * @returns if no need to increase enemies
  */
-function increaseEnemies(){
+function increaseEnemies(player, map){
     if(player.level <= 5) {
         return;
     }else if (player.level > 5 && player.level <=10 && allEnemies.length < 4) {
@@ -426,7 +426,7 @@ document.addEventListener("keyup", function(e) {
         40: "down"
     };
 
-    player.handleInput(allowedKeys[e.keyCode]);
+    player.handleInput(allowedKeys[e.keyCode], map);
 });
 
 
@@ -434,11 +434,11 @@ document.addEventListener("keyup", function(e) {
  *Displays the gameover panel with level status
  *
  */
-function gameover() {
+function gameover(player) {
     gameoverpanel.style.display = "flex";
     let finalLevel = document.querySelector(".final_level");
     finalLevel.textContent = player.level;
 }
 
 
-export {Enemy, Player, allEnemies, player, gameover, initObjects, replay};
+export {Map, map, Enemy, Player, allEnemies, player, gameover, initObjects, replay};

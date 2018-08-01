@@ -12,7 +12,7 @@
  * This engine makes the canvas' context (ctx) object globally available to make 
  * writing app.js a little simpler to work with.
  */
-import {Enemy, Player, allEnemies, player, gameover, initObjects, replay} from './custom.js';
+import {Map, map, Enemy, Player, allEnemies, player, gameover, initObjects, replay} from './custom.js';
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -46,8 +46,8 @@ var Engine = (function(global) {
          * our update function since it may be used for smooth animation.
          */
         update(dt);
-        if(!checkStatus()){
-            gameover();
+        if(!checkStatus(player)){
+            gameover(player);
             return;
         }
         render();
@@ -96,9 +96,9 @@ var Engine = (function(global) {
      */
     function updateEntities(dt) {
         allEnemies.forEach(function(enemy) {
-            enemy.update(dt);
+            enemy.update(dt, player, map);
         });
-        player.update();
+        player.update(map);
     }
 
     /**
@@ -106,7 +106,7 @@ var Engine = (function(global) {
      *
      * @returns {boolean} True if player can still play, false if not.
      */
-    function checkStatus() {
+    function checkStatus(player) {
         if(!player.isAlive()){
             win.cancelAnimationFrame(requestAnimation);
             return false;
