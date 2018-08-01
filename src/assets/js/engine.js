@@ -12,7 +12,7 @@
  * This engine makes the canvas' context (ctx) object globally available to make 
  * writing app.js a little simpler to work with.
  */
-import {Enemy, Player, allEnemies, player, gameover} from './custom.js';
+import {Enemy, Player, allEnemies, player, gameover, initObjects, replay} from './custom.js';
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -176,7 +176,11 @@ var Engine = (function(global) {
      */
     function reset() {
         // noop
+        initObjects();
+
     }
+
+    replay.addEventListener("click", init);
 
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when

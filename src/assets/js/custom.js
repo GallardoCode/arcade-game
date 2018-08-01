@@ -1,6 +1,10 @@
 let levelSpan = document.getElementById("level_span");
 let livesSpan = document.getElementById("lives_span");
 let gameoverpanel = document.querySelector(".gameover");
+let replay = document.querySelector(".replay");
+let map
+let allEnemies
+let player
 /**
  *
  *
@@ -211,6 +215,7 @@ class Player {
             this.updateLevel();
             console.log("reached");
             this.reset();
+            increaseEnemies();
         }
     }
 
@@ -249,10 +254,24 @@ class Player {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-let map = new Map(5, 6, 0, -21, 101, 83, 2, 4);
-console.log(map.getCanvasXSize());
-let allEnemies = [new Enemy(map.getRandomColPixel(), map.getRandomEnemyRowPixel()), new Enemy(map.getRandomColPixel(), map.getRandomEnemyRowPixel()), new Enemy(map.getRandomColPixel(), map.getRandomEnemyRowPixel())];
-let player = new Player();
+function initObjects() {
+    map = new Map(5, 6, 0, -21, 101, 83, 2, 4);
+    allEnemies = [new Enemy(map.getRandomColPixel(), map.getRandomEnemyRowPixel()), new Enemy(map.getRandomColPixel(), map.getRandomEnemyRowPixel()), new Enemy(map.getRandomColPixel(), map.getRandomEnemyRowPixel())];
+    player = new Player();
+    gameoverpanel.style.display = "none";
+}
+
+function increaseEnemies(){
+    if(player.level <= 5) {
+        return;
+    }else if (player.level > 5 && player.level <=10 && allEnemies.length < 4) {
+        allEnemies.push(new Enemy(-map.xSpace, map.getRandomEnemyRowPixel()));
+    }else if (player.level > 10 && player.level <=15 && allEnemies.length < 5){
+        allEnemies.push(new Enemy(-map.xSpace, map.getRandomEnemyRowPixel()));
+    }else if (player.level > 15 && allEnemies.length < 6){
+        allEnemies.push(new Enemy(-map.xSpace, map.getRandomEnemyRowPixel()));
+    }
+}
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -267,9 +286,12 @@ document.addEventListener("keyup", function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
+
 function gameover() {
     gameoverpanel.style.display = "flex";
     let finalLevel = document.querySelector(".final_level");
     finalLevel.textContent = player.level;
 }
-export {Enemy, Player, allEnemies, player, gameover};
+
+
+export {Enemy, Player, allEnemies, player, gameover, initObjects, replay};
