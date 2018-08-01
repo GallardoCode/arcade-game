@@ -1,70 +1,52 @@
-# ZURB Template
+# Arcade Game
+This Arcade game for the udacity frontend course. It's a repilica of the frogger games of old. Get your character accross the path while avoiding enemies. Each crossing increases your level but also the difficulty.
 
-[![devDependency Status](https://david-dm.org/zurb/foundation-zurb-template/dev-status.svg)](https://david-dm.org/zurb/foundation-zurb-template#info=devDependencies)
+## Tabel of Contents
+- [Arcade Game](#arcade-game)
+  - [Tabel of Contents](#tabel-of-contents)
+  - [Objectives and Requirements](#objectives-and-requirements)
+  - [Technologies](#technologies)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+  - [Acknowledgments](#acknowledgments)
 
-**Please open all issues with this template on the main [Foundation for Sites](https://github.com/zurb/foundation-sites/issues) repo.**
+## Objectives and Requirements
 
-This is the official ZURB Template for use with [Foundation for Sites](http://foundation.zurb.com/sites). We use this template at ZURB to deliver static code to our clients. It has a Gulp-powered build system with these features:
+Requirements for the project can be found in the Udacity project specifications [here](https://review.udacity.com/#!/rubrics/15/view).
 
-- Handlebars HTML templates with Panini
-- Sass compilation and prefixing
-- JavaScript module bundling with webpack
-- Built-in BrowserSync server
-- For production builds:
-  - CSS compression
-  - JavaScript compression
-  - Image compression
+## Technologies
+This project was made with the following technologies:
 
-## Installation
+- HTML5
+- CSS3
+- Javascript ES6
+- Foundation ZURB stack (Pannini, Sass, Webpack, npm )
 
-To use this template, your computer needs:
+Source code found in /src, compiled site runs from /dist
 
-- [NodeJS](https://nodejs.org/en/) (0.12 or greater)
-- [Git](https://git-scm.com/)
+## Getting Started
 
-This template can be installed with the Foundation CLI, or downloaded and set up manually.
+To run the game locally on your machine, you need to have [node.js](https://nodejs.org/en/) and [git](https://git-scm.com/) installed on your computer.
 
-### Using the CLI
-
-Install the Foundation CLI with this command:
-
-```bash
-npm install foundation-cli --global
+Download and go to the project folder and install dependencies
 ```
-
-Use this command to set up a blank Foundation for Sites project with this template:
-
-```bash
-foundation new --framework sites --template zurb
-```
-
-The CLI will prompt you to give your project a name. The template will be downloaded into a folder with this name.
-
-Now `cd` to your project name and to start your project run 
-
-```bash
-foundation watch
-```
-
-### Manual Setup
-
-To manually set up the template, first download it with Git:
-
-```bash
-git clone https://github.com/zurb/foundation-zurb-template projectname
-```
-
-Then open the folder in your command line, and install the needed dependencies:
-
-```bash
-cd projectname
+cd arcadegame
 npm install
 ```
 
-Finally, run `npm start` to run Gulp. Your finished site will be created in a folder called `dist`, viewable at this URL:
+Once installed, you can now run `npm start` to build the project. This will create a dist folder to be used by the webserver and viewable at 
+`http://localhost:8000`
+
+For production ready project with full compression on code and assets then use
 
 ```
-http://localhost:8000
+npm run build
 ```
 
-To create compressed, production-ready assets, run `npm run build`.
+### Prerequisites
+Foundation uses babel to make es6 code as backwards compatible as much as possible, the limitations can be found [here](https://babeljs.io/docs/en/caveats).
+
+## Acknowledgments
+- Art assets and requestAnimationFrame loop engine proveded by [Udacity](https://github.com/udacity/frontend-nanodegree-arcade-game)
+- Google Fonts - Do Hyendo and Hanalei Fill [here](https://fonts.google.com/selection?selection.family=Do+Hyeon|Hanalei+Fill)
+- FontAwesome Sass version [here](https://fontawesome.com/how-to-use/on-the-web/using-with/sass)
